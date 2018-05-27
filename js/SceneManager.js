@@ -11,45 +11,40 @@ function SceneManager(canvas) {
     const camera = buildCamera(screenDimensions);
     const controls = new THREE.OrbitControls(camera);
     const sceneSubjects = createSceneSubjects(scene);
+    const city = new CityScape(scene, renderer);
 
     function buildScene() {
         let scene = new THREE.Scene();
-
-        scene.background = new THREE.Color("#D0E0F0");
-        
+        scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
         return scene;
     }
 
     function buildRenderer({ width, height }) {
         let renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); 
         let DPR = (window.devicePixelRatio) ? window.devicePixelRatio : 1;
-        
         renderer.setPixelRatio(DPR);
         renderer.setSize(width, height);
-		// renderer.setClearColor(0xd0e0f0); // set background colour ?
+        renderer.setClearColor( 0xd8e7ff );
         renderer.gammaInput = true;
         renderer.gammaOutput = true;
-
         return renderer;
     }
 
     function buildCamera({ width, height }) {
         let aspectRatio = width / height;
-        let fieldOfView = 70;
-        let nearPlane = 0.01;
-        let farPlane = 10; 
+        let fieldOfView = 40;
+        let nearPlane = 1;
+        let farPlane = 3000; 
         let camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-        
-        camera.position.set(1,1,2);
+        camera.position.set(0,120,280);
 		camera.lookAt(0,0,0);
-
         return camera;
     }
 
     function createSceneSubjects(scene) {
         let sceneSubjects = [
-            // new GeneralLights(scene),
-            new NormalCube(scene)
+            new GeneralLights(scene),
+            // new NormalCube(scene)
         ];
 		scene.add(new THREE.AxesHelper(1)); // WORLD COORDINATE FRAME
 
