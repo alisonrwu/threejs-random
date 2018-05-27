@@ -11,7 +11,7 @@ function SceneManager(canvas) {
     const camera = buildCamera(screenDimensions);
     const controls = new THREE.OrbitControls(camera);
     const sceneSubjects = createSceneSubjects(scene);
-    const city = new CityScape(scene, renderer);
+    initStaticSubjects(scene, renderer);
 
     function buildScene() {
         let scene = new THREE.Scene();
@@ -34,11 +34,22 @@ function SceneManager(canvas) {
         let aspectRatio = width / height;
         let fieldOfView = 40;
         let nearPlane = 1;
-        let farPlane = 3000; 
+        let farPlane = 3000;
+        // let camera = new THREE.PerspectiveCamera(40, aspectRatio, 1, 3000);
         let camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-        camera.position.set(0,120,280);
+        // camera.position.set(0,120,280);
+        camera.position.set(0,5,5);
 		camera.lookAt(0,0,0);
         return camera;
+    }
+
+    function initStaticSubjects(scene, renderer) {
+        scene.add(new THREE.AxesHelper(100)); // WORLD COORDINATE FRAME
+
+        // new FloorPlane(scene);
+        // new CityScape(scene, renderer);
+        new GeometryTemplate(scene);
+        // new HillyFields(scene);
     }
 
     function createSceneSubjects(scene) {
@@ -46,7 +57,6 @@ function SceneManager(canvas) {
             new GeneralLights(scene),
             // new NormalCube(scene)
         ];
-		scene.add(new THREE.AxesHelper(1)); // WORLD COORDINATE FRAME
 
         return sceneSubjects;
     }

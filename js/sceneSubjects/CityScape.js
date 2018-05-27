@@ -1,9 +1,5 @@
 function CityScape(scene, renderer) {
-    let plane = new THREE.Mesh( new THREE.PlaneGeometry( 2000, 2000 ), new THREE.MeshBasicMaterial( { color: 0x101018 } ) );
-	plane.rotation.x = - 90 * Math.PI / 180;
-	scene.add( plane );
-
-	let geometry = new THREE.CubeGeometry(1,1,1);
+    let geometry = new THREE.CubeGeometry(1,1,1);
 	// move pivot point to bottom of cube
 	geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0));
 	// remove bottom face
