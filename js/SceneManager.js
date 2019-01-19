@@ -37,18 +37,19 @@ function SceneManager(canvas) {
         let farPlane = 3000;
         // let camera = new THREE.PerspectiveCamera(40, aspectRatio, 1, 3000);
         let camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
-        // camera.position.set(0,120,280);
-        camera.position.set(0,5,5);
+        camera.position.set(10,10,30);
+        // camera.position.set(0,5,5);
 		camera.lookAt(0,0,0);
         return camera;
     }
 
     function initStaticSubjects(scene, renderer) {
-        scene.add(new THREE.AxesHelper(100)); // WORLD COORDINATE FRAME
+        scene.add(new THREE.AxesHelper(10)); // WORLD COORDINATE FRAME
 
         // new FloorPlane(scene);
         // new CityScape(scene, renderer);
-        new GeometryTemplate(scene);
+        // new GeometryTemplate(scene);
+        new NormalTerrain(scene);
         // new HillyFields(scene);
     }
 

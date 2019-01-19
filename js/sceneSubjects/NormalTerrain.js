@@ -1,6 +1,4 @@
-function HillyFields(scene) {
-	// TODO: just jagged triangles right now and forever until I gain motivation again :c
-	
+function NormalTerrain(scene) {
 	noise.seed(Math.random());
 
 	let geometry = makeTile(1,10);
@@ -10,19 +8,16 @@ function HillyFields(scene) {
 	scene.add(mesh);
 
 	// size of each quad, tiles defines # of quads wide
-	function makeTile(size, tiles, maxHeight=tiles/2, centerX=0, centerZ=0) {
+	function makeTile(size, tiles, centerX=0, centerZ=0) {
 		let geom = new THREE.Geometry();
 		let x,y,z, position, addFace;
-		let max = size * tiles;
 		for(let i=0; i<=tiles; i++) {
 			for(let j=0; j<=tiles; j++) {
 				x = i * size;
 				z = j * size;
 				// y = 0;
-				// y = noise.perlin2(x, z)*size;
-				y = noise.perlin2((x/max)*7, (z/max)*7)*maxHeight;
-				// y = noise.perlin2((x/max)*7, (z/max)*7)*size;
-				// y = noise.simplex2(x, z)*size;
+				// y = noise.perlin2(x/max, z/max)*size;
+				y = noise.simplex2(x, z)*size;
 				position = new THREE.Vector3(x,y,z);
 				addFace = (i>0) && (j>0);
 				makeQuad(geom, position, addFace, tiles+1);
@@ -32,7 +27,7 @@ function HillyFields(scene) {
 		geom.computeFaceNormals();
 		geom.normalsNeedUpdate = true;
 
-		let half = max/2;
+		let half = (size*tiles)/2;
 		geom.translate(centerX-half,0,centerZ-half);
 		return geom;
 	}
